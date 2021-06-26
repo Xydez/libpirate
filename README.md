@@ -1,9 +1,10 @@
-# ts-template
-ts-template is a template for TypeScript
+# libpirate
+libpirate is a torrent index searching library
 
 TODO:
-- Implement thepiratebay.org
 - Implement rarbg.to
 - Implement torlock.com
 - Implement torrentz2eu.org
+- Implement yts.mx
+- Implement eztv.re
 - Write unit tests
