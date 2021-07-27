@@ -2,10 +2,13 @@
 	"name": "libpirate",
 	"version": "1.0.0",
 	"license": "MIT",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"scripts": {
 		"start": "tsc && node dist/main.js",
 		"build": "tsc",
-		"test": "jest"
+		"test": "jest",
+		"prepare": "tsc"
 	},
 	"dependencies": {
 		"axios": "^0.21.1",

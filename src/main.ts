@@ -27,8 +27,8 @@ function strtrunc(string: string, length: number, align: number = -1): string {
 }
 
 const sites = [
-	// new ThePirateBay(),
-	// new LeetX(),
+	new ThePirateBay(),
+	new LeetX(),
 	new NyaaSi()
 ];
 
