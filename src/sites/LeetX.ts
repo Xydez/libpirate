@@ -34,7 +34,7 @@ export default class LeetX extends TorrentProvider {
 						const rows = $(".table-list tbody tr");
 						
 						if (rows.length > 0) {
-							rows.each(async (_, element) => {
+							rows.each((_, element) => {
 								try {
 									// Only get up to the limit
 									if (start_count >= search.limit) {
@@ -60,27 +60,30 @@ export default class LeetX extends TorrentProvider {
 										throw new Error("Search failed during page scraping.");
 									}
 
-									let response = await this.http.get(link!);
+									this.http.get(link!).then(response => {
+										$ = cheerio.load(response.data);
 
-									$ = cheerio.load(response.data);
-
-									let magnet = $('[href^="magnet:"]').attr('href');
-                					let hash = $('.infohash-box span').text();
-
-                					if (magnet === undefined || hash === undefined) {
-										throw new Error("Search failed during page scraping.");
-                					}
-
-									let torrent: Torrent = {
-										name, hash, size, uploader, seeders, leechers, magnet
-									};
-
-									subscriber.next(torrent);
-									done_count += 1;
-
-									if (done_count == search.limit) {
-										subscriber.complete();
-									}
+										let magnet = $('[href^="magnet:"]').attr('href');
+										let hash = $('.infohash-box span').text();
+	
+										if (magnet === undefined || hash === undefined) {
+											throw new Error("Search failed during page scraping.");
+										}
+	
+										let torrent: Torrent = {
+											name, hash, size, uploader, seeders, leechers, magnet
+										};
+	
+										subscriber.next(torrent);
+										done_count += 1;
+	
+										if (done_count == search.limit) {
+											subscriber.complete();
+										}
+									}).catch(error => {
+										done_count += 1;
+										subscriber.error(error);
+									});
 								} catch (error) {
 									done_count += 1;
 									subscriber.error(error);
