@@ -70,7 +70,7 @@ export default class ThePirateBay extends TorrentProvider {
 				/* TODO: Write code here */
 				// https://thepiratebay.org/search.php?q=Rick+and+morty
 				try {
-					let response = await this.http.get<ApiBayResponse>(`http://apibay.org/q.php?q=${encodeURIComponent(search.query)}`);
+					let response = await this.http.get<ApiBayResponse>("http://apibay.org/q.php", { params: { q: search.query }});
 
 					let count = 0;
 					for (const el of response.data)
@@ -84,6 +84,10 @@ export default class ThePirateBay extends TorrentProvider {
 							leechers: Number.parseInt(el.leechers),
 							magnet: generate_magnet(el.name, el.info_hash)
 						};
+
+						if (torrent.name === "No results returned") {
+							break;
+						}
 
 						subscriber.next(torrent);
 						count += 1;

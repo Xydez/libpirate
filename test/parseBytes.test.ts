@@ -1,4 +1,4 @@
-import parseBytes from "./parseBytes";
+import parseBytes from "../src/parseBytes";
 
 it("parses different data sizes", () => {
 	expect(() => parseBytes("16")).toThrow();

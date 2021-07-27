@@ -34,12 +34,16 @@ const sites = [
 program
 	.argument("<query>", "Query to search for")
 	.option("-m, --show-magnet", "Display the magnet link for each torrent")
+	.option("-q, --quiet", "Don't output anything except the search results")
 	.option("-l, --limit <limit>", "Limit the amount of results", "10")
 	.option("-s, --min-seeders <seeders>", "Only show torrents with a minimum amount of seeders")
 	.action(query => {
-		const opts = program.opts<{ showMagnet: boolean, limit: number, minSeeders?: number }>();
+		const opts = program.opts<{ showMagnet: boolean, quiet: boolean, limit: number, minSeeders?: number }>();
 		const search: Search = { query, limit: opts.limit };
-		console.log(`Searching for "${query}"`);
+
+		if (!opts.quiet) {
+			console.log(`Searching for "${query}"`);
+		}
 		
 		merge(...sites.map(site => site.search(search)))
 			.pipe(retry(2), toArray(), map(torrents => torrents.sort((a, b) => b.seeders - a.seeders)))
