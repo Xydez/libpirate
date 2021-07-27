@@ -1,4 +1,4 @@
-import { ThePirateBay, LeetX } from "./sites";
+import { ThePirateBay, LeetX, NyaaSi } from "./sites";
 import { merge } from "rxjs";
 import { toArray, map, retry } from "rxjs/operators";
 import { Search } from "./TorrentProvider";
@@ -27,8 +27,9 @@ function strtrunc(string: string, length: number, align: number = -1): string {
 }
 
 const sites = [
-	new ThePirateBay(),
-	new LeetX()
+	// new ThePirateBay(),
+	// new LeetX(),
+	new NyaaSi()
 ];
 
 program
