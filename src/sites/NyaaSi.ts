@@ -4,6 +4,7 @@ import { Observable, Subscriber } from "rxjs";
 import parseBytes from "../parseBytes";
 import Torrent from "../Torrent";
 import TorrentProvider, { Search } from "../TorrentProvider";
+import parseTorrent from "parse-torrent";
 
 const USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36';
 
@@ -57,9 +58,9 @@ export default class NyaaSi extends TorrentProvider {
 							if (magnet == undefined) {
 								throw Error("Failed to parse response");
 							}
-
+							
 							let torrent: Torrent = {
-								name, magnet, size, seeders, leechers
+								name, magnet, size, seeders, leechers, hash: parseTorrent(magnet).infoHash!
 							};
 
 							subscriber.next(torrent);
